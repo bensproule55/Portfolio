@@ -15,6 +15,21 @@ phone book struct.
 #include "Trie.h"
 #include "Phonebook.h"
 
+// add entry to flat entryList
+void addEntry(Entry **entryList, Entry *tempEntry);
+
+void removeEntry(Entry **entryList, Entry *tempEntry);
+
+void removeEntry(Entry **entryList, int id);
+
+void clearEntryList(Entry **entryList);
+
+// function to create a new entry struct
+Entry *createEntry(Entry *emptyEntry, char *number, char *name);
+
+void freeEntry(Entry *tempEntry);
+
+
 // check if string contains non-num chars
 bool containsNonNum(char *number){
     // loop through all string chars

@@ -15,22 +15,60 @@ typedef struct ent{
     char name[];
 } Entry;
 
+/** Function to create an entry struct with a name and number
+ *@return initialized entry object
+ *@param entryList: array of entries to insert new entry
+ *@param tempEntry: initialized entry to add to the list
+**/
+void addEntry(Entry **entryList, Entry *tempEntry);
+
+/** Function to remove an entry from entry list by matching entry with existing
+ * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
+ *@param entryList: array of entries 
+ *@param tempEntry: entry to remove
+**/
+void removeEntry(Entry **entryList, Entry *tempEntry);
+
+/** Function to remove an entry from entry list by looking for the entry ID
+ * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
+ *@param entryList: array of entries 
+ *@param id: id number to remove from the list
+**/
+void removeEntry(Entry **entryList, int id);
+
+/** Function to remove all entries and free the entryList struct
+ *@param entryList: array of entries 
+**/
+void clearEntryList(Entry **entryList);
+
+/** Function to add an entry object to the entry list
+ *@param emptyEntry: UNINITIALIZED entry object (this will be error checked though)
+ *@param number: non-empty, initialized string to add to the entry
+ *@param name: non-empty, initialized string to add to the entry
+**/
+Entry *createEntry(Entry *emptyEntry, char *number, char *name);
+
+/** Function to delete an entry struct
+ *@param tempEntry: entry to free
+**/
+void freeEntry(Entry *tempEntry);
+
 /** Function to check if all chars in a string are numeric
  *@return true or false if contains non-num or not
- *@param string to check 
+ *@param number: string to check 
 **/
 bool containsNonNum(char *number);
 
 /** Function to check validity of phone number
  *@return true or false if the phone fits following formats
- *@param phone number to check 
+ *@param number: phone number to check 
  * acceptable: xxx-xxx-xxxx, xxxxxxxxxx, xxx xxx xxxx
 **/
 bool isValidNumber(char *number);
 
 /** Function trim chars off phone number
  *@return phone number stripped of '-' or ' ' chars
- *@param phone number to trim
+ *@param number: phone number to trim
 **/
 char * trimNumber(char *number);
 
