@@ -16,19 +16,51 @@ phone book struct.
 #include "Phonebook.h"
 
 // add entry to flat entryList
-void addEntry(Entry **entryList, Entry *tempEntry);
+void addEntry(Entry **entryList, Entry *tempEntry){
+    if(entryList != NULL){
+        for(int i = 0; entryList[i] != NULL; i++){
+            entryList[i] = tempEntry;
+        }
+    }
+}
 
-void removeEntry(Entry **entryList, Entry *tempEntry);
+// remove entry from entryList by entry object *slow*
+void removeEntryByEntry(Entry **entryList, Entry *tempEntry);
 
-void removeEntry(Entry **entryList, int id);
+// remove entry from entryList by id
+void removeEntryByID(Entry **entryList, int id);
 
-void clearEntryList(Entry **entryList);
+// clears and frees all entries
+void clearEntryList(Entry **entryList){
+    if(entryList != NULL){
+        for(int i = 0; entryList[i] != NULL; i++){
+            freeEntry(entryList[i]);
+        }
+        free(entryList);
+    }
+}
 
 // function to create a new entry struct
-Entry *createEntry(Entry *emptyEntry, char *number, char *name);
+void *createEntry(Entry *emptyEntry, char *number, char *name){
+    emptyEntry = malloc(sizeof(char) * 11 + sizeof(strlen(name)) * (sizeof(char) + 1));
 
-void freeEntry(Entry *tempEntry);
+    for(int i=0; i<11; i++) emptyEntry->phoneNumber[i] = number[i];
+    emptyEntry->phoneNumber[11] = '\0';
 
+    for(int i=0; i<strlen(name); i++){
+        emptyEntry->name[i] = name[i];
+        if(i == strlen(name)-1) emptyEntry->name[11] = '\0';
+    }
+
+    return emptyEntry;
+}
+
+// free entry object
+void freeEntry(Entry *tempEntry){
+    // note: do not need to free strings inside because they are
+    // static arrs that are initialized in the Entry malloc
+    free(tempEntry);
+}
 
 // check if string contains non-num chars
 bool containsNonNum(char *number){

@@ -27,14 +27,14 @@ void addEntry(Entry **entryList, Entry *tempEntry);
  *@param entryList: array of entries 
  *@param tempEntry: entry to remove
 **/
-void removeEntry(Entry **entryList, Entry *tempEntry);
+void removeEntryByEntry(Entry **entryList, Entry *tempEntry);
 
 /** Function to remove an entry from entry list by looking for the entry ID
  * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
  *@param entryList: array of entries 
  *@param id: id number to remove from the list
 **/
-void removeEntry(Entry **entryList, int id);
+void removeEntryByID(Entry **entryList, int id);
 
 /** Function to remove all entries and free the entryList struct
  *@param entryList: array of entries 
@@ -45,8 +45,9 @@ void clearEntryList(Entry **entryList);
  *@param emptyEntry: UNINITIALIZED entry object (this will be error checked though)
  *@param number: non-empty, initialized string to add to the entry
  *@param name: non-empty, initialized string to add to the entry
+ *ret is void because pass by reference
 **/
-Entry *createEntry(Entry *emptyEntry, char *number, char *name);
+void *createEntry(Entry *emptyEntry, char *number, char *name);
 
 /** Function to delete an entry struct
  *@param tempEntry: entry to free
