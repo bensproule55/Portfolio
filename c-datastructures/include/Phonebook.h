@@ -15,12 +15,17 @@ typedef struct ent{
     char name[];
 } Entry;
 
-/** Function to create an entry struct with a name and number
- *@return initialized entry object
+/** Function to add an entry to entryList
+ *@return initialized or reinitialized entryList object
  *@param entryList: array of entries to insert new entry
  *@param tempEntry: initialized entry to add to the list
 **/
-void addEntry(Entry **entryList, Entry *tempEntry);
+Entry **addEntry(Entry **entryList, Entry *tempEntry);
+
+/** Function to print current entryList for debugging or user output
+ *@param entryList: array of entries
+**/
+void printEntryList(Entry **entryList);
 
 /** Function to remove an entry from entry list by matching entry with existing
  * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
@@ -42,12 +47,16 @@ void removeEntryByID(Entry **entryList, int id);
 void clearEntryList(Entry **entryList);
 
 /** Function to add an entry object to the entry list
- *@param emptyEntry: UNINITIALIZED entry object (this will be error checked though)
+ *@return retEntry: initialized entry object 
  *@param number: non-empty, initialized string to add to the entry
  *@param name: non-empty, initialized string to add to the entry
- *ret is void because pass by reference
 **/
-void *createEntry(Entry *emptyEntry, char *number, char *name);
+Entry *createEntry(char *number, char *name);
+
+/** Function to print entry on newline for debugging
+ *@param entryToPrint: entry to print
+**/
+void printEntry(Entry *entryToPrint);
 
 /** Function to delete an entry struct
  *@param tempEntry: entry to free

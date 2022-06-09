@@ -15,12 +15,30 @@ phone book struct.
 #include "Trie.h"
 #include "Phonebook.h"
 
-// add entry to flat entryList
-void addEntry(Entry **entryList, Entry *tempEntry){
+// add entry to flat entryList, entryList[length+1] will always = NULL
+Entry **addEntry(Entry **entryList, Entry *tempEntry){
+    int k = 0;
+
+    // if list is not empty, reallocate memory
     if(entryList != NULL){
-        for(int i = 0; entryList[i] != NULL; i++){
-            entryList[i] = tempEntry;
-        }
+        entryList = realloc(entryList, sizeof(entryList) + sizeof(tempEntry) + sizeof(NULL));
+        while(entryList[k] != NULL) k++;
+        entryList[k] = tempEntry;
+        entryList[k+1] = NULL;
+    } 
+    else{ // list empty
+        entryList = malloc(sizeof(tempEntry) + sizeof(NULL));
+        entryList[0] = tempEntry;
+        entryList[1] = NULL;
+    }
+
+    return entryList;
+}
+
+// debugging print function
+void printEntryList(Entry **entryList){
+    if(entryList != NULL){
+        for(int i = 0; entryList[i] != NULL; i++) printEntry(entryList[i]);
     }
 }
 
@@ -41,18 +59,20 @@ void clearEntryList(Entry **entryList){
 }
 
 // function to create a new entry struct
-void *createEntry(Entry *emptyEntry, char *number, char *name){
-    emptyEntry = malloc(sizeof(char) * 11 + sizeof(strlen(name)) * (sizeof(char) + 1));
+Entry *createEntry(char *number, char *name){
+    Entry * retEntry = malloc(sizeof(char) * 11 + sizeof(strlen(name)) * (sizeof(char) + 1));
 
-    for(int i=0; i<11; i++) emptyEntry->phoneNumber[i] = number[i];
-    emptyEntry->phoneNumber[11] = '\0';
+    // size will always be 11 due to error checking, make sure to add null char
+    for(int i=0; i<11; i++) retEntry->phoneNumber[i] = number[i];
+    retEntry->phoneNumber[11] = '\0';
 
+    // adaptive adding based on size of name
     for(int i=0; i<strlen(name); i++){
-        emptyEntry->name[i] = name[i];
-        if(i == strlen(name)-1) emptyEntry->name[11] = '\0';
+        retEntry->name[i] = name[i];
+        if(i == strlen(name)-1) retEntry->name[i+1] = '\0';
     }
 
-    return emptyEntry;
+    return retEntry;
 }
 
 // free entry object
@@ -60,6 +80,11 @@ void freeEntry(Entry *tempEntry){
     // note: do not need to free strings inside because they are
     // static arrs that are initialized in the Entry malloc
     free(tempEntry);
+}
+
+// print entry for debugging
+void printEntry(Entry *entryToPrint){
+    printf("%s, %s\n", entryToPrint->name, entryToPrint->phoneNumber);
 }
 
 // check if string contains non-num chars

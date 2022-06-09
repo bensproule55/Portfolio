@@ -19,23 +19,33 @@ int main(int argc, char const *argv[]){
 
     // temp variables for playing around with new structs
     Entry* tempEntry = NULL;
-    Entry** entryList;
-    char tempS1[11] = "5195555555";
-    char tempS2[15] = "Kenny Loggins";
-    char *tempS3;
+    Entry** entryList = NULL;
+    char *tempS1, *tempS2;
 
-    // some basic memory allocation and assignment
-    // note: string copying must be done in for loops and must include inserting the string terminator
-    tempEntry = malloc(sizeof(Entry) + (sizeof(char) *16)); // check size for flexible array in future
-    for(int i = 0; i < strlen(tempS1); i++) tempEntry->phoneNumber[i] = tempS1[i];
-    tempEntry->phoneNumber[strlen(tempS1)] = '\0';
-    for(int i = 0; i < strlen(tempS2); i++) tempEntry->name[i] = tempS2[i];
-    tempEntry->name[strlen(tempS2)] = '\0';
+    // hardcoded strings for initialization / testing
+    tempS1 = malloc(sizeof(char) * 11);
+    strcpy(tempS1, "5195555555");
+    tempS2 = malloc(sizeof(char) * 15);
+    strcpy(tempS2, "Kenny Loggins");
+    tempEntry = createEntry(tempS1, tempS2);
+    free(tempS1);
+    free(tempS2);
 
-    // assign temp to flat array and output (will need to make this array expandable in future)
-    entryList = malloc(sizeof(tempEntry));
-    entryList[0] = tempEntry;
-    printf("%s, %s\n", entryList[0]->phoneNumber, entryList[0]->name);
+    // add to list
+    entryList = addEntry(entryList, tempEntry);
+
+    // same as above
+    tempS1 = malloc(sizeof(char) * 11);
+    strcpy(tempS1, "5195558899");
+    tempS2 = malloc(sizeof(char) * 15);
+    strcpy(tempS2, "Stevie Wonder");
+    tempEntry = createEntry(tempS1, tempS2);
+    free(tempS1);
+    free(tempS2);
+
+    entryList = addEntry(entryList, tempEntry);
+    
+    printEntryList(entryList);
 
     // menu looper
     printf("Welcome to the phone book\n");
@@ -43,9 +53,11 @@ int main(int argc, char const *argv[]){
     while( !isEnd ){
         choice = mainMenu();
         if(choice == 5) isEnd = true;
-        //tempS3 = acceptNumber();
-        //printf("%s", tempS3);
+        //tempS1 = acceptNumber();
+        //printf("%s", tempS1);
     }
+
+    clearEntryList(entryList);
 
     // TODO: free any strings used for memory and the phonebook / trie (using nested functions)
     
