@@ -15,36 +15,42 @@ typedef struct ent{
     char name[];
 } Entry;
 
+/** Function to initialize the trieHead object
+ * Allocates enough memory for head object and 10 children (0-9)
+ *@return void
+**/
+void initializeHead();
+
 /** Function to add an entry to entryList
  *@return initialized or reinitialized entryList object
  *@param entryList: array of entries to insert new entry
  *@param tempEntry: initialized entry to add to the list
 **/
-Entry **addEntry(Entry **entryList, Entry *tempEntry);
+void addEntry(Entry ***entryList, Entry *tempEntry);
 
 /** Function to print current entryList for debugging or user output
  *@param entryList: array of entries
 **/
-void printEntryList(Entry **entryList);
+void printEntryList(Entry ***entryList);
 
 /** Function to remove an entry from entry list by matching entry with existing
  * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
  *@param entryList: array of entries 
  *@param tempEntry: entry to remove
 **/
-void removeEntryByEntry(Entry **entryList, Entry *tempEntry);
+void removeEntryByEntry(Entry ***entryList, Entry *tempEntry);
 
 /** Function to remove an entry from entry list by looking for the entry ID
  * Note: this will also free the memory but will not shift the list due to having to re-write all the TRIE nodes
  *@param entryList: array of entries 
  *@param id: id number to remove from the list
 **/
-void removeEntryByID(Entry **entryList, int id);
+void removeEntryByID(Entry ***entryList, int id);
 
 /** Function to remove all entries and free the entryList struct
  *@param entryList: array of entries 
 **/
-void clearEntryList(Entry **entryList);
+void clearEntryList(Entry ***entryList);
 
 /** Function to add an entry object to the entry list
  *@return retEntry: initialized entry object 

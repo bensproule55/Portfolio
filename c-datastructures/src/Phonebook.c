@@ -15,46 +15,55 @@ phone book struct.
 #include "Trie.h"
 #include "Phonebook.h"
 
+TrieNode *trieHead;
+
+// initialize head to size of node plus size of node * alphabet size
+void initializeHead(){
+    trieHead = malloc(sizeof(TrieNode) + sizeof(TrieNode) * 10);
+    trieHead->entryID = -2;
+    trieHead->isEnd = false;
+
+    for (int i = 0; i<10; i++) trieHead->children[i] = NULL;
+}
+
 // add entry to flat entryList, entryList[length+1] will always = NULL
-Entry **addEntry(Entry **entryList, Entry *tempEntry){
+void addEntry(Entry ***entryList, Entry *tempEntry){
     int k = 0;
 
     // if list is not empty, reallocate memory
-    if(entryList != NULL){
-        entryList = realloc(entryList, sizeof(entryList) + sizeof(tempEntry) + sizeof(NULL));
-        while(entryList[k] != NULL) k++;
-        entryList[k] = tempEntry;
-        entryList[k+1] = NULL;
+    if(*entryList != NULL){
+        *entryList = realloc(*entryList, sizeof(*entryList) + sizeof(tempEntry) + sizeof(NULL));
+        while((*entryList)[k] != NULL) k++;
+        (*entryList)[k] = tempEntry;
+        (*entryList)[k+1] = NULL;
     } 
     else{ // list empty
-        entryList = malloc(sizeof(tempEntry) + sizeof(NULL));
-        entryList[0] = tempEntry;
-        entryList[1] = NULL;
+        *entryList = malloc(sizeof(tempEntry) + sizeof(NULL));
+        (*entryList)[0] = tempEntry;
+        (*entryList)[1] = NULL;
     }
-
-    return entryList;
 }
 
 // debugging print function
-void printEntryList(Entry **entryList){
-    if(entryList != NULL){
-        for(int i = 0; entryList[i] != NULL; i++) printEntry(entryList[i]);
+void printEntryList(Entry ***entryList){
+    if(*entryList != NULL){
+        for(int i = 0; (*entryList)[i] != NULL; i++) printEntry((*entryList)[i]);
     }
 }
 
 // remove entry from entryList by entry object *slow*
-void removeEntryByEntry(Entry **entryList, Entry *tempEntry);
+void removeEntryByEntry(Entry ***entryList, Entry *tempEntry);
 
 // remove entry from entryList by id
-void removeEntryByID(Entry **entryList, int id);
+void removeEntryByID(Entry ***entryList, int id);
 
 // clears and frees all entries
-void clearEntryList(Entry **entryList){
-    if(entryList != NULL){
-        for(int i = 0; entryList[i] != NULL; i++){
-            freeEntry(entryList[i]);
+void clearEntryList(Entry ***entryList){
+    if(*entryList != NULL){
+        for(int i = 0; (*entryList)[i] != NULL; i++){
+            freeEntry((*entryList)[i]);
         }
-        free(entryList);
+        free(*entryList);
     }
 }
 
