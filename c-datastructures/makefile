@@ -11,8 +11,8 @@ run: all
 memory: all 
 	valgrind --leak-check=yes main
 
-main: $(SRC)main.c Phonebook.o 
-	$(CC) $(CFLAGS) $(SRC)main.c -I$(INC) -o main Phonebook.o 
+main: $(SRC)main.c Phonebook.o Trie.o 
+	$(CC) $(CFLAGS) $(SRC)main.c -I$(INC) -o main Phonebook.o Trie.o 
 
 Phonebook.o: $(SRC)Phonebook.c $(INC)Phonebook.h Trie.o 
 	$(CC) $(CFLAGS) $(SRC)Phonebook.c -I$(INC) -c Trie.o

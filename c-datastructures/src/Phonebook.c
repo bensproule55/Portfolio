@@ -19,11 +19,7 @@ TrieNode *trieHead;
 
 // initialize head to size of node plus size of node * alphabet size
 void initializeHead(){
-    trieHead = malloc(sizeof(TrieNode) + sizeof(TrieNode) * 10);
-    trieHead->entryID = -2;
-    trieHead->isEnd = false;
-
-    for (int i = 0; i<10; i++) trieHead->children[i] = NULL;
+    trieHead = createTrieNode(false, -2, 10);
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL

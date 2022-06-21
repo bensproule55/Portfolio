@@ -19,9 +19,34 @@ typedef struct tNode{
     // List of children. Size may vary since using different alphabets (a-zA-Z vs. 0-9)
     // Allocate memory based on alphabet size during installation.
     // May be NULL, must not be empty. NULL indicates number not found.
+    // Index number in this list will correspond to digits in phone number
+    // - ie: children[4] will mean the node corresponds to the digit 4 (depends on implementation)
+    // - ie: children[5] will mean the node corresponds to the letter 'e' (depends on implementation)
     struct tNode* children[];
 } TrieNode;
 
+/** Function to create a TRIE node object
+ *@return trieNode object
+ *@param isEnd: isEnd variable to set
+ *@param entryID: entryID to set
+ *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
+ *note: children will be initialized as NULL to indicate no children
+**/
+TrieNode *createTrieNode(bool isEnd, int entryID, int alphabetSize);
 
+/** Function that adds an initialized trie node to children list in parent
+ *@param parentNode: parent to accept node
+ *@param newNode: node to be added
+ *@param index: index to place child in children list
+**/
+void addChild(TrieNode parentNode, TrieNode newNode, int index);
+
+/** Recursive function that adds a new trie node if it reaches the 
+ * end of the list or transverses and removes a character
+ *@param current: current place to add or check node
+ *@param toAdd: string to check and/or add (decrement for recursion)
+ *@param entryID: entryID to add if last character  
+**/
+void insertTrieNode(TrieNode current, char toAdd[], int entryID);
 
 #endif	
