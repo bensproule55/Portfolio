@@ -11,8 +11,8 @@ typedef struct tNode{
     // Signifies completed word. Must not be NULL or empty.
     bool isEnd;
 
-    // ID for lookup in a simple array
-    // Set as -1 to indicate no entry. This will only contain a num >= 0 if isEnd is true
+    // ID for lookup in a simple array. This will only contain a num >= 0 if isEnd is true
+    // Set as -1 to indicate no entry
     // Set as -2 to indicate head of the TRIE structure
     int entryID;
 
@@ -39,7 +39,7 @@ TrieNode *createTrieNode(bool isEnd, int entryID, int alphabetSize);
  *@param newNode: node to be added
  *@param index: index to place child in children list
 **/
-void addChild(TrieNode parentNode, TrieNode newNode, int index);
+void addChild(TrieNode *parentNode, TrieNode *newNode, int index);
 
 /** Recursive function that adds a new trie node if it reaches the 
  * end of the list or transverses and removes a character
@@ -47,6 +47,6 @@ void addChild(TrieNode parentNode, TrieNode newNode, int index);
  *@param toAdd: string to check and/or add (decrement for recursion)
  *@param entryID: entryID to add if last character  
 **/
-void insertTrieNode(TrieNode current, char toAdd[], int entryID);
+void insertTrieNode(TrieNode *current, char *toAdd, int entryID, int alphabetSize);
 
 #endif	

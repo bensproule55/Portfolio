@@ -20,6 +20,8 @@ TrieNode *trieHead;
 // initialize head to size of node plus size of node * alphabet size
 void initializeHead(){
     trieHead = createTrieNode(false, -2, 10);
+
+    insertTrieNode(trieHead, "123", 1, 10); // testing purposes
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL
