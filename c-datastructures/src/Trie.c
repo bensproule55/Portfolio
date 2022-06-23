@@ -17,7 +17,7 @@ the TRIE data structure.
 // create a new trieNode object
 TrieNode *createTrieNode(bool isEnd, int entryID, int alphabetSize){
     TrieNode *node = malloc(sizeof(TrieNode) + sizeof(TrieNode) * alphabetSize);
-    node->entryID = -2;
+    node->entryID = entryID;
     node->isEnd = false;
 
     for (int i = 0; i<alphabetSize; i++) node->children[i] = NULL;
@@ -42,12 +42,44 @@ void insertTrieNode(TrieNode *current, char *toAdd, int entryID, int alphabetSiz
         addChild(current, newNode, toAdd[0] - '0');
     }
     else{ // create or traverse node, remove letter, recall
-        newNode = createTrieNode(false, -1, alphabetSize);
-        addChild(current, newNode, toAdd[0] - '0');
+        if(current->children[toAdd[0] - '0'] == NULL){ // only add new if child is null
+            newNode = createTrieNode(false, -1, alphabetSize);
+            addChild(current, newNode, toAdd[0] - '0');
+        }
         for(int i = 0; toAdd[i] != '\0'; i++) newString[i] = toAdd[i+1]; //remove first letter from string
         
         insertTrieNode(newNode, newString, entryID, alphabetSize);
     }
 
     free(newString);
+}
+
+// print functions for debugging, prints in pre order
+void printTriePre(TrieNode *current, int alphabetSize){
+    if(current == NULL) return;
+    else {
+        if(current->entryID == -2) printf("Head node. Children:\n");
+        else printf("entryID: %d, isEnd: %d. Children:\n", current->entryID, current->isEnd);
+        for(int i = 0; i < alphabetSize; i++){
+            if(current->children[i] != NULL){
+                printf("\tindex: %d, ", i);
+                printTriePre(current->children[i], alphabetSize);
+            }
+        }
+    }
+}
+
+// print functions for debugging, prints in post order
+void printTriePost(TrieNode *current, int alphabetSize){
+    if(current == NULL) return;
+    else {  
+        for(int i = 0; i < alphabetSize; i++){   
+            if(current->children[i] != NULL){
+                printf("index: %d, \n", i);
+                printTriePost(current->children[i], alphabetSize);
+            }
+        }
+        if(current->entryID == -2) printf("Head node.\n");
+        else printf("entryID: %d, isEnd: %d.\n", current->entryID, current->isEnd);
+    }
 }

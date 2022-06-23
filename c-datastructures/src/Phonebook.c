@@ -22,6 +22,8 @@ void initializeHead(){
     trieHead = createTrieNode(false, -2, 10);
 
     insertTrieNode(trieHead, "123", 1, 10); // testing purposes
+    insertTrieNode(trieHead, "178", 1, 10); // testing purposes
+    printTriePost(trieHead, 10);
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL

@@ -46,7 +46,27 @@ void addChild(TrieNode *parentNode, TrieNode *newNode, int index);
  *@param current: current place to add or check node
  *@param toAdd: string to check and/or add (decrement for recursion)
  *@param entryID: entryID to add if last character  
+ *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
 **/
 void insertTrieNode(TrieNode *current, char *toAdd, int entryID, int alphabetSize);
+
+/** Recursive function that prints the trie in pre order
+ *@param current: current place to start print
+ *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
+**/
+void printTriePre(TrieNode *current, int alphabetSize);
+
+/** Recursive function that prints the trie in post order
+ *@param current: current place to start print
+ *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
+**/
+void printTriePost(TrieNode *current, int alphabetSize);
+
+/** Recursive function that frees the trie
+ *@param current: current place to start print
+ *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
+**/
+void freeTrie(TrieNode *current, int alphabetSize);
+
 
 #endif	
