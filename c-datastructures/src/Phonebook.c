@@ -15,15 +15,18 @@ phone book struct.
 #include "Trie.h"
 #include "Phonebook.h"
 
+const int ALPHABET_SIZE = 10;
 TrieNode *trieHead;
 
 // initialize head to size of node plus size of node * alphabet size
 void initializeHead(){
-    trieHead = createTrieNode(false, -2, 10);
+    trieHead = createTrieNode(false, -2, ALPHABET_SIZE);
 
-    insertTrieNode(trieHead, "123", 1, 10); // testing purposes
-    insertTrieNode(trieHead, "178", 1, 10); // testing purposes
-    printTriePost(trieHead, 10);
+    insertTrieNode(trieHead, "5195552030", 1, ALPHABET_SIZE); // testing purposes
+    insertTrieNode(trieHead, "5195552031", 1, ALPHABET_SIZE); // testing purposes
+    insertTrieNode(trieHead, "5195553888", 1, ALPHABET_SIZE); // testing purposes
+    printTriePre(trieHead, ALPHABET_SIZE);
+    freeTrie(trieHead, ALPHABET_SIZE);
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL

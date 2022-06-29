@@ -63,7 +63,7 @@ void printTriePre(TrieNode *current, int alphabetSize);
 void printTriePost(TrieNode *current, int alphabetSize);
 
 /** Recursive function that frees the trie
- *@param current: current place to start print
+ *@param current: current place to start free
  *@param alphabetSize: size of alphabet (10 for number, 26 for letters etc)
 **/
 void freeTrie(TrieNode *current, int alphabetSize);

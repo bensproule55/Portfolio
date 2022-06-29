@@ -9,7 +9,7 @@ run: all
 	./main
 
 memory: all 
-	valgrind --leak-check=yes main
+	valgrind --leak-check=yes ./main
 
 main: $(SRC)main.c Phonebook.o Trie.o 
 	$(CC) $(CFLAGS) $(SRC)main.c -I$(INC) -o main Phonebook.o Trie.o 

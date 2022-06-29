@@ -16,9 +16,9 @@ the TRIE data structure.
 
 // create a new trieNode object
 TrieNode *createTrieNode(bool isEnd, int entryID, int alphabetSize){
-    TrieNode *node = malloc(sizeof(TrieNode) + sizeof(TrieNode) * alphabetSize);
+    TrieNode *node = calloc(alphabetSize + 1, sizeof(TrieNode));
     node->entryID = entryID;
-    node->isEnd = false;
+    node->isEnd = isEnd;
 
     for (int i = 0; i<alphabetSize; i++) node->children[i] = NULL;
 
@@ -46,6 +46,7 @@ void insertTrieNode(TrieNode *current, char *toAdd, int entryID, int alphabetSiz
             newNode = createTrieNode(false, -1, alphabetSize);
             addChild(current, newNode, toAdd[0] - '0');
         }
+        else newNode = current->children[toAdd[0] - '0'];
         for(int i = 0; toAdd[i] != '\0'; i++) newString[i] = toAdd[i+1]; //remove first letter from string
         
         insertTrieNode(newNode, newString, entryID, alphabetSize);
@@ -81,5 +82,18 @@ void printTriePost(TrieNode *current, int alphabetSize){
         }
         if(current->entryID == -2) printf("Head node.\n");
         else printf("entryID: %d, isEnd: %d.\n", current->entryID, current->isEnd);
+    }
+}
+
+// uses post processing to free nodes
+void freeTrie(TrieNode *current, int alphabetSize){
+    if(current == NULL) return;
+    else {  
+        for(int i = 0; i < alphabetSize; i++){   
+            if(current->children[i] != NULL){
+                freeTrie(current->children[i], alphabetSize);
+            }
+        }
+        free(current);
     }
 }
