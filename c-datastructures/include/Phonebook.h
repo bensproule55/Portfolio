@@ -21,12 +21,33 @@ typedef struct ent{
 **/
 void initializeHead();
 
+/** Function to clear the trieHead object
+ *@return void
+**/
+void clearHead();
+
+/** Function to print the trie in pre order
+ *@return void
+**/
+void printHeadPre();
+
+/** Function to print the trie in post order
+ *@return void
+**/
+void printHeadPost();
+
 /** Function to add an entry to entryList
- *@return initialized or reinitialized entryList object
+ *@return none, assigns to existing entryList with triple pointer
  *@param entryList: array of entries to insert new entry
  *@param tempEntry: initialized entry to add to the list
 **/
 void addEntry(Entry ***entryList, Entry *tempEntry);
+
+/** Function to check the length of the entryList object
+ *@return length of list
+ *@param entryList: array of entries to check length
+**/
+int getLength(Entry ***entryList);
 
 /** Function to print current entryList for debugging or user output
  *@param entryList: array of entries

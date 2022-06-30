@@ -22,6 +22,8 @@ int main(int argc, char const *argv[]){
     Entry** entryList = NULL;
     char *tempS1, *tempS2;
 
+    initializeHead();
+
     // hardcoded strings for initialization / testing
     tempS1 = malloc(sizeof(char) * 11);
     strcpy(tempS1, "5195555555");
@@ -44,24 +46,34 @@ int main(int argc, char const *argv[]){
     free(tempS2);
 
     addEntry(&entryList, tempEntry);
-    
-    printEntryList(&entryList);
-
-    initializeHead();
 
     // menu looper
     printf("Welcome to the phone book\n");
 
-    // while( !isEnd ){
-    //     choice = mainMenu();
-    //     if(choice == 5) isEnd = true;
-    //     //tempS1 = acceptNumber();
-    //     //printf("%s", tempS1);
-    // }
+    while( !isEnd ){
+        choice = mainMenu();
+        if(choice == 1){
+            
+        }
+        else if(choice == 2){
+
+        }
+        else if(choice == 3){
+            
+        }
+        else if(choice == 4){
+            
+        }
+        else isEnd = true;
+        //tempS1 = acceptNumber();
+        //printf("%s", tempS1);
+    }
+
+    printEntryList(&entryList);
+    printHeadPre();
 
     clearEntryList(&entryList);
-
-    // TODO: free any strings used for memory and the phonebook / trie (using nested functions)
+    clearHead();
     
     return 0;
 }

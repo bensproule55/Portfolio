@@ -21,12 +21,21 @@ TrieNode *trieHead;
 // initialize head to size of node plus size of node * alphabet size
 void initializeHead(){
     trieHead = createTrieNode(false, -2, ALPHABET_SIZE);
+}
 
-    insertTrieNode(trieHead, "5195552030", 1, ALPHABET_SIZE); // testing purposes
-    insertTrieNode(trieHead, "5195552031", 1, ALPHABET_SIZE); // testing purposes
-    insertTrieNode(trieHead, "5195553888", 1, ALPHABET_SIZE); // testing purposes
-    printTriePre(trieHead, ALPHABET_SIZE);
+// clear and free trie object
+void clearHead(){
     freeTrie(trieHead, ALPHABET_SIZE);
+}
+
+// print trie in pre order
+void printHeadPre(){
+    printTriePre(trieHead, ALPHABET_SIZE);
+}
+
+// print trie in post order
+void printHeadPost(){
+    printTriePost(trieHead, ALPHABET_SIZE);
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL
@@ -45,7 +54,26 @@ void addEntry(Entry ***entryList, Entry *tempEntry){
         (*entryList)[0] = tempEntry;
         (*entryList)[1] = NULL;
     }
+
+    // insert into trie with k as the entryID
+    insertTrieNode(trieHead, tempEntry->phoneNumber, k, ALPHABET_SIZE);
 }
+
+// check the length of the list, useful for getting most recent element in list
+// note: this functionality could be fit into addEntry to save efficiency,
+// but that code would not be very readable
+int getLength(Entry ***entryList){
+    int k = 0;
+
+    // if list is empty, k will return 0
+    if(*entryList != NULL){
+        while((*entryList)[k] != NULL) k++;
+        k++; // need to add one from the last valid index for length
+    } 
+
+    return k;
+}
+
 
 // debugging print function
 void printEntryList(Entry ***entryList){
@@ -170,7 +198,7 @@ char * acceptName(){
 // simple menu to select what the user wants to do
 int mainMenu(){
     // default choice of exit if bad input
-    int choice = 4; 
+    int choice = 5; 
 
     // options, make these into enum?
     printf("1. Add new entry\n"); // single or from csv
@@ -183,7 +211,7 @@ int mainMenu(){
     // ask for choice and then loop until it is valid
     scanf("%d", &choice);
     while(choice > 5 || choice < 0){
-        printf("Please enter a number between 1-4: ");
+        printf("Please enter a number between 1-5: ");
         scanf("%d", &choice);
     }
 
