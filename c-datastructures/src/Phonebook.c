@@ -15,32 +15,43 @@ phone book struct.
 #include "Trie.h"
 #include "Phonebook.h"
 
-const int ALPHABET_SIZE = 10;
-TrieNode *trieHead;
+const int NUM_ALPHABET_SIZE = 10;
+const int LETTER_ALPHABET_SIZE = 27; // includes space
+TrieNode *numberTrieHead;
+TrieNode *nameTrieHead;
+
 
 // initialize head to size of node plus size of node * alphabet size
-void initializeHead(){
-    trieHead = createTrieNode(false, -2, ALPHABET_SIZE);
+void initializeHeads(){
+    numberTrieHead = createTrieNode(false, -2, NUM_ALPHABET_SIZE);
+    nameTrieHead = createTrieNode(false, -2, LETTER_ALPHABET_SIZE);
 }
 
 // clear and free trie object
-void clearHead(){
-    freeTrie(trieHead, ALPHABET_SIZE);
+void clearHeads(){
+    freeTrie(numberTrieHead, NUM_ALPHABET_SIZE);
 }
 
 // print trie in pre order
-void printHeadPre(){
-    printTriePre(trieHead, ALPHABET_SIZE);
+void printHeadsPre(){
+    printf("Number TRIE: \n");
+    printTriePre(numberTrieHead, NUM_ALPHABET_SIZE);
+    printf("Name TRIE: \n");
+    printTriePre(nameTrieHead, LETTER_ALPHABET_SIZE);
 }
 
 // print trie in post order
-void printHeadPost(){
-    printTriePost(trieHead, ALPHABET_SIZE);
+void printHeadsPost(){
+    printf("Number TRIE: \n");
+    printTriePost(numberTrieHead, NUM_ALPHABET_SIZE);
+    printf("Name TRIE: \n");
+    printTriePost(nameTrieHead, LETTER_ALPHABET_SIZE);
 }
 
 // add entry to flat entryList, entryList[length+1] will always = NULL
 void addEntry(Entry ***entryList, Entry *tempEntry){
-    int k = 0;
+    int k = 0, j = 0;
+    char *nameConversion = malloc(strlen(tempEntry->name) * (sizeof(char) + 1));
 
     // if list is not empty, reallocate memory
     if(*entryList != NULL){
@@ -56,7 +67,20 @@ void addEntry(Entry ***entryList, Entry *tempEntry){
     }
 
     // insert into trie with k as the entryID
-    insertTrieNode(trieHead, tempEntry->phoneNumber, k, ALPHABET_SIZE);
+    insertTrieNode(numberTrieHead, tempEntry->phoneNumber, k, NUM_ALPHABET_SIZE);
+
+    // need to convert chars to indexes for trie function, includes lowercase conversion
+    while (j < strlen(tempEntry->name)){
+        if(tempEntry->name[j] == ' ') nameConversion[j] = (tempEntry->name[j] + 16); // space
+        else if(tempEntry->name[j] <= 90) nameConversion[j] = (tempEntry->name[j] - 16); // upper case
+        else nameConversion[j] = (tempEntry->name[j] - 48); // lowercase
+        j++;
+    }
+    nameConversion[j] = '\0'; // null char to terminate string
+
+    insertTrieNode(nameTrieHead, nameConversion, k, LETTER_ALPHABET_SIZE);
+
+    free(nameConversion);
 }
 
 // check the length of the list, useful for getting most recent element in list
@@ -100,11 +124,11 @@ void clearEntryList(Entry ***entryList){
 
 // function to create a new entry struct
 Entry *createEntry(char *number, char *name){
-    Entry * retEntry = malloc(sizeof(char) * 11 + sizeof(strlen(name)) * (sizeof(char) + 1));
+    Entry * retEntry = malloc(sizeof(char) * (NUM_ALPHABET_SIZE+1) + sizeof(strlen(name)) * (sizeof(char) + 1));
 
-    // size will always be 11 due to error checking, make sure to add null char
-    for(int i=0; i<11; i++) retEntry->phoneNumber[i] = number[i];
-    retEntry->phoneNumber[11] = '\0';
+    // make sure to add null char
+    for(int i=0; i<NUM_ALPHABET_SIZE+1; i++) retEntry->phoneNumber[i] = number[i];
+    retEntry->phoneNumber[NUM_ALPHABET_SIZE+1] = '\0';
 
     // adaptive adding based on size of name
     for(int i=0; i<strlen(name); i++){
@@ -144,13 +168,13 @@ bool isValidNumber(char *number){
     char * numTrimmed = trimNumber(number);
 
     // check if length is bad or contains non-num chars
-    if (strlen(numTrimmed) != 11) return false;
+    if (strlen(numTrimmed) != NUM_ALPHABET_SIZE+1) return false;
     else if(containsNonNum(numTrimmed)) return false;
     else return true;
 }
 
 // remove spaces and dashes from telephone number
-char * trimNumber(char *number){
+char *trimNumber(char *number){
     int k = 0;
     char * numTrimmed = malloc(sizeof(char) * strlen(number) + 1);
 
@@ -169,7 +193,7 @@ char * trimNumber(char *number){
 
 // prompt and accept valid phone number
 // uses error checking function isValidNumber
-char * acceptNumber(){
+char *acceptNumber(){
     bool isValid = false; 
     // using max len 150
     char * number = malloc(sizeof(char) * 150);
@@ -184,7 +208,7 @@ char * acceptNumber(){
 }
 
 // prompt and accept any name from user
-char * acceptName(){
+char *acceptName(){
     // using max len 150
     char * name = malloc(sizeof(char) * 150);
 

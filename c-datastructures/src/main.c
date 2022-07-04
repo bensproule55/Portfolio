@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]){
     Entry** entryList = NULL;
     char *tempS1, *tempS2;
 
-    initializeHead();
+    initializeHeads();
 
     // hardcoded strings for initialization / testing
     tempS1 = malloc(sizeof(char) * 11);
@@ -52,16 +52,16 @@ int main(int argc, char const *argv[]){
 
     while( !isEnd ){
         choice = mainMenu();
-        if(choice == 1){
+        if(choice == 1){ // add new
             
         }
-        else if(choice == 2){
+        else if(choice == 2){ // lookup
 
         }
-        else if(choice == 3){
+        else if(choice == 3){ // update
             
         }
-        else if(choice == 4){
+        else if(choice == 4){ // view all
             
         }
         else isEnd = true;
@@ -70,10 +70,10 @@ int main(int argc, char const *argv[]){
     }
 
     printEntryList(&entryList);
-    printHeadPre();
+    printHeadsPre();
 
     clearEntryList(&entryList);
-    clearHead();
+    clearHeads();
     
     return 0;
 }

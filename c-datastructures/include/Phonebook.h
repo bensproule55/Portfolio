@@ -15,26 +15,26 @@ typedef struct ent{
     char name[];
 } Entry;
 
-/** Function to initialize the trieHead object
+/** Function to initialize the trieHead objects
  * Allocates enough memory for head object and 10 children (0-9)
  *@return void
 **/
-void initializeHead();
+void initializeHeads();
 
-/** Function to clear the trieHead object
+/** Function to clear the trieHead objects
  *@return void
 **/
-void clearHead();
+void clearHeads();
 
 /** Function to print the trie in pre order
  *@return void
 **/
-void printHeadPre();
+void printHeadsPre();
 
 /** Function to print the trie in post order
  *@return void
 **/
-void printHeadPost();
+void printHeadsPost();
 
 /** Function to add an entry to entryList
  *@return none, assigns to existing entryList with triple pointer
@@ -107,17 +107,22 @@ bool isValidNumber(char *number);
  *@return phone number stripped of '-' or ' ' chars
  *@param number: phone number to trim
 **/
-char * trimNumber(char *number);
+char *trimNumber(char *number);
 
 /** Function to prompt and get a valid phone number
  *@return a string "number" that is a valid phone number
 **/
-char * acceptNumber();
+char *acceptNumber();
 
 /** Function to prompt and get any name
  *@return a string "name" that the user entered 
 **/
-char * acceptName();
+char *acceptName();
+
+/** Function to ask if user will input name or number
+ *@return 0 for name, 1 for number
+**/
+int byNameOrNumber();
 
 /** Function to prompt and get user input
  *@return a number signifying the user's choice 

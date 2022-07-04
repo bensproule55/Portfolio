@@ -33,6 +33,8 @@ void addChild(TrieNode *parentNode, TrieNode *newNode, int index){
 // insert trieNode in children of current node based on string
 // NOTE: TOADD should be a string of numbers. If using a non numeric alphabet, 
 // it should be converted before being passed to this function
+// For alphabets larger than 10, the characters will line up with ascii indexes 
+// and therefore need to be converted backwards to be readable 
 void insertTrieNode(TrieNode *current, char *toAdd, int entryID, int alphabetSize){
     TrieNode *newNode;
     char *newString = malloc(sizeof(char) * (strlen(toAdd))); // need to make new string to do string copying
