@@ -55,7 +55,7 @@ void addEntry(Entry ***entryList, Entry *tempEntry){
 
     // if list is not empty, reallocate memory
     if(*entryList != NULL){
-        *entryList = realloc(*entryList, sizeof(*entryList) + sizeof(tempEntry) + sizeof(NULL));
+        *entryList = realloc(*entryList, sizeof(*entryList) + sizeof(tempEntry)*2 + sizeof(NULL));
         while((*entryList)[k] != NULL) k++;
         (*entryList)[k] = tempEntry;
         (*entryList)[k+1] = NULL;
@@ -156,7 +156,7 @@ bool containsNonNum(char *number){
     // loop through all string chars
     for(int i = 0; i < strlen(number)-1; i++){
         // character comparison, not mathematical
-        if(number[i] < '0' || number[i] > '9') return true;
+        if((number[i] < '0' || number[i] > '9') && number[i] != '\0') return true;
     }
     return false; // false if did not return during for loop
 }
@@ -168,9 +168,18 @@ bool isValidNumber(char *number){
     char * numTrimmed = trimNumber(number);
 
     // check if length is bad or contains non-num chars
-    if (strlen(numTrimmed) != NUM_ALPHABET_SIZE+1) return false;
-    else if(containsNonNum(numTrimmed)) return false;
-    else return true;
+    if (strlen(numTrimmed) != 10) {
+        free(numTrimmed); 
+        return false;
+    }
+    else if(containsNonNum(numTrimmed)) {
+        free(numTrimmed);
+        return false;
+    }
+    else {
+        free(numTrimmed);
+        return true;
+    }
 }
 
 // remove spaces and dashes from telephone number
@@ -201,6 +210,7 @@ char *acceptNumber(){
     while (!isValid){
         printf("Please enter a phone number: ");
         fgets (number, 150, stdin);
+        number[strlen(number)-1] = '\0'; //cut newline
         isValid = isValidNumber(number);
     }
 
@@ -215,8 +225,27 @@ char *acceptName(){
     // get name, fgets allow getting spaces
     printf("Please enter a name: ");
     fgets (name, 150, stdin);
+    name[strlen(name)-1] = '\0'; //cut newline
 
     return name;
+}
+
+// prompt user to get choice to do name or number
+int byNameOrNumber(){
+    bool isValid = false; 
+    // using max len 150
+    char * number = malloc(sizeof(char) * 150);
+
+    while (!isValid){
+        printf("Please enter 0 to go by name, 1 to go by number: ");
+        fgets (number, 150, stdin);
+        if(number[0] != '0' && number[0] != '1'){
+            printf("Invalid choice\n");
+        } 
+        else isValid = true;
+    }
+
+    return number[0];
 }
 
 // simple menu to select what the user wants to do

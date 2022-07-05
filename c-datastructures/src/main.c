@@ -15,7 +15,7 @@ Main function for phone book program.
 
 int main(int argc, char const *argv[]){
     bool isEnd = false;
-    int choice = 5; // default exit
+    int menuChoice = 5, searchChoice = 0; // default exit
 
     // temp variables for playing around with new structs
     Entry* tempEntry = NULL;
@@ -51,26 +51,56 @@ int main(int argc, char const *argv[]){
     printf("Welcome to the phone book\n");
 
     while( !isEnd ){
-        choice = mainMenu();
-        if(choice == 1){ // add new
-            
+        menuChoice = mainMenu();
+        if(menuChoice == 1){ // add new
+            tempS1 = acceptName();
+            tempS2 = acceptNumber();
+            tempEntry = createEntry(tempS2, tempS1);
+            free(tempS1);
+            free(tempS2);
+            addEntry(&entryList, tempEntry);
         }
-        else if(choice == 2){ // lookup
-
+        else if(menuChoice == 2){ // lookup
+            searchChoice = byNameOrNumber();
+            if(searchChoice == 0) {
+                tempS1 = acceptName();
+            }
+            else if(searchChoice == 1) {
+                tempS1 = acceptNumber();
+            }
+            else{
+                printf("Bad choice\n");
+            }
         }
-        else if(choice == 3){ // update
-            
+        else if(menuChoice == 3){ // update
+            searchChoice = byNameOrNumber();
+            if(searchChoice == 0) {
+                tempS1 = acceptName();
+            }
+            else if(searchChoice == 1) {
+                tempS1 = acceptNumber();
+            }
+            else{
+                printf("Bad choice\n");
+            }
         }
-        else if(choice == 4){ // view all
-            
+        else if(menuChoice == 4){ // view all
+            searchChoice = byNameOrNumber();
+            if(searchChoice == 0) {
+                tempS1 = acceptName();
+            }
+            else if(searchChoice == 1) {
+                tempS1 = acceptNumber();
+            }
+            else{
+                printf("Bad choice\n");
+            }
         }
         else isEnd = true;
-        //tempS1 = acceptNumber();
-        //printf("%s", tempS1);
     }
 
-    printEntryList(&entryList);
-    printHeadsPre();
+    // printEntryList(&entryList);
+    // printHeadsPre();
 
     clearEntryList(&entryList);
     clearHeads();
